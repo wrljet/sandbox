@@ -90,16 +90,17 @@ jobs:
           dir
           popd
           ::
-          dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"
+          rem dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"
           ::
-          set HERCULES_HELPER_BUILD_DIR=%cd%\hercules-build
-          echo HERCULES_HELPER_BUILD: %HERCULES_HELPER_BUILD%
+          set HERCULES_HELPER_BUILD_DIR=%cd%\hyperion
+          echo HERCULES_HELPER_BUILD_DIR: %HERCULES_HELPER_BUILD_DIR%
           ::
           set HERCULES_HELPER_VCVARS_CMD=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat
           ::
-          pushd "%HERCULES_HELPER_BUILD_DIR%\sdl-hyperion"
+          pushd "%HERCULES_HELPER_BUILD_DIR%"
           set HERCULES_BUILD_DIR=%cd%\msvc.AMD64.bin
           call "%HERCULES_HELPER_VCVARS_CMD%"
+          popd
 
 
 

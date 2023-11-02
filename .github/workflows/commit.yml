@@ -82,9 +82,21 @@ jobs:
             dir
             mkdir hyperion\winbuild
             cd hyperion\winbuild
-            $URL = "http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
-            $OutFile = "ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
+            $ZIPFILE = "ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
+            $URL = "http://www.softdevlabs.com/downloads/%ZIPFILE%"
+            $OutFile = "%ZIPFILE%"
             Invoke-WebRequest -URI $URL -OutFile $OutFile
+            ::
+            $ZIPFILE ="BZIP2-1.0.6-bin-lib-inc-vc2008-x86-x64.zip"
+            $URL = "http://www.softdevlabs.com/downloads/%ZIPFILE%"
+            $OutFile = "%ZIPFILE%"
+            Invoke-WebRequest -URI $URL -OutFile $OutFile
+            ::
+            $ZIPFILE = "PCRE-6.4.1-bin-lib-inc-vc2008-x86-x64.zip"
+            $URL = "http://www.softdevlabs.com/downloads/%ZIPFILE%"
+            $OutFile = "%ZIPFILE%"
+            Invoke-WebRequest -URI $URL -OutFile $OutFile
+            ::
             dir
           popd
           dir

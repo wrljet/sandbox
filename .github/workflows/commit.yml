@@ -145,8 +145,8 @@ jobs:
           echo $env:ZIPFILE
           dir
           echo " "
-          dir ..
           echo "dir .. before zip"
+          dir ..
           pushd ..
             # Create a zip file with the contents of msvc.AMD64.bin
             Compress-Archive -Path hyperion\msvc.AMD64.bin -DestinationPath $env:ZIPFILE
@@ -165,6 +165,7 @@ jobs:
           echo "Title: $env:TITLE"
           echo "TITLE=$env:TITLE" >>$env:GITHUB_ENV
           dir
+          dir ..
 
       - name: Attach Release Archive
         uses: wrljet/actions/packages/automatic-releases@built-packages

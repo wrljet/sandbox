@@ -177,5 +177,6 @@ jobs:
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
             "${{env.ZIPFILE}}"
+            goo
 
 ### END ###

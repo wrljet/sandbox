@@ -66,9 +66,15 @@ jobs:
       - name: Get Commit Ref
         run: |
           echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
-          dir ..
-          git rev-parse --short $env:GITHUB_SHA
+          #
+          # git rev-parse --short $env:GITHUB_SHA
           $env:COMMIT_REF = (git rev-parse --short $env:GITHUB_SHA)
           echo "COMMIT_REF: $env:COMMIT_REF"
           # echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
+          pushd ..
+          dir
+          git clone https://github.com/wrljet/hercules-helper-windows.git
+          dir
+          popd
+          #
 

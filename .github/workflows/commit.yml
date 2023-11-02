@@ -72,23 +72,23 @@ jobs:
           echo "COMMIT_REF: $env:COMMIT_REF"
           # echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
           #
+
+      - name: Command Shell
+        shell: cmd
+        run: |
+          echo "Hello, DOS"
+          dir
+          echo %GITHUB_SHA%
+          git rev-parse --short %GITHUB_SHA%
+          set "git_hash=-gHHHHHHH"
+          for /f %%a in ('git rev-parse --short HEAD') do set "COMMIT_REF=%%a"
+          echo %COMMIT_REF%
+          echo GIT_HASH: %COMMIT_REF%
+          #
           pushd ..
           dir
           git clone https://github.com/wrljet/hercules-helper-windows.git
           dir
           popd
           #
-
-      - name: Command Shell
-        shell: cmd
-        run: |
-          echo "Hello, DOS"
-          echo %COMMIT_REF%
-          dir
-          echo %GITHUB_SHA%
-          git rev-parse --short %GITHUB_SHA%
-          set "git_hash=-gHHHHHHH"
-          for /f %%a in ('git rev-parse --short HEAD') do set "git_hash=-g%%a"
-          echo %git_hash%
-          echo GIT_HASH: %git_hash%
 

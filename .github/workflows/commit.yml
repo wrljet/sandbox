@@ -84,7 +84,7 @@ jobs:
           popd
 
       - name: Wget Packages
-        used: wei/wget@v1
+        uses: wei/wget@v1
         with:
           args: -O logfile.txt -P . http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip
 

@@ -170,6 +170,6 @@ jobs:
           prerelease: true
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            "${{env.TITLE}}"
+            "${{env.ZIPFILE}}"
 
 ### END ###

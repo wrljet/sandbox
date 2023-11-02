@@ -56,8 +56,12 @@ jobs:
           echo '$psversiontable...'
           $psversiontable
           write-host "Hello World"
-          echo 'get-computerinfo...'
-          get-computerinfo
+          # echo 'get-computerinfo...'
+          # get-computerinfo
+          echo "$env:GITHUB_WORKSPACE"
 
       - name: Checkout
         uses: actions/checkout@v3.3.0
+        run: |
+          echo "$env:GITHUB_WORKSPACE"
+

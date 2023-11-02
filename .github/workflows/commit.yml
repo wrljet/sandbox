@@ -149,7 +149,7 @@ jobs:
           dir ..
           pushd ..
             # Create a zip file with the contents of msvc.AMD64.bin
-            Compress-Archive -Path hyperion\msvc.AMD64.bin -DestinationPath "sandbox\$env:ZIPFILE"
+            Compress-Archive -Path hyperion\msvc.AMD64.bin\*.* -DestinationPath "sandbox\$env:ZIPFILE"
             echo "dir .. after zip"
             dir
           popd
@@ -177,7 +177,7 @@ jobs:
       - name: Download binaries
         uses: actions/download-artifact@v2
 
-      - name: Rename binaries
+      - name: Review binaries
         run: |
           dir
 
@@ -189,7 +189,6 @@ jobs:
           prerelease: true
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            goo
             release.zips
 
 ### END ###

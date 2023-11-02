@@ -171,8 +171,8 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: "${{env.ZIPFILE}}"
-          path: target/release/sandbox 
+          path: "${{env.ZIPFILE}}"
+          name: "foo.zip"
 
       - name: Download binaries
         uses: actions/download-artifact@v2
@@ -191,5 +191,6 @@ jobs:
           files: |
             "${{env.ZIPFILE}}"
             goo
+            foo.zip
 
 ### END ###

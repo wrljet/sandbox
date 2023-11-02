@@ -53,4 +53,6 @@ jobs:
       - name: Foo
         run: |
           echo 'Building on Windows Not Implemented Yet'
+          # pwd
+          cd
 

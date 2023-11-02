@@ -59,7 +59,6 @@ jobs:
           # echo 'get-computerinfo...'
           # get-computerinfo
           echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
-          wget --help
 
       - name: Checkout
         uses: actions/checkout@v3.3.0
@@ -74,20 +73,33 @@ jobs:
           # echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
           #
 
+      - name: Git Clones
+        run: |
+          pushd ..
+            dir
+            git clone https://github.com/wrljet/hercules-helper-windows.git
+            git clone https://github.com/SDL-Hercules-390/hyperion.git
+            dir
+            mkdir hyperion\winbuild
+          popd
+
+      - name: Wget Packages
+        used: wei/wget@v1
+        with:
+          args: -O logfile.txt -P . http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip
+
       - name: Command Shell
         shell: cmd
         run: |
           echo "Hello, DOS"
           dir
+          dir ..
           echo GITHUB_SHA: %GITHUB_SHA%
           set "git_hash=-gHHHHHHH"
           for /f %%a in ('git rev-parse --short HEAD') do set "COMMIT_REF=%%a"
           echo GIT_HASH: %COMMIT_REF%
           ::
           pushd ..
-            dir
-            git clone https://github.com/wrljet/hercules-helper-windows.git
-            git clone https://github.com/SDL-Hercules-390/hyperion.git
             dir
           ::
             rem dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"

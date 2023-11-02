@@ -53,8 +53,10 @@ jobs:
       - name: Foo
         run: |
           echo 'Building on Windows Not Implemented Yet'
+          echo '$psversiontable...'
           $psversiontable
           write-host "Hello World"
+          echo 'get-computerinfo...'
           get-computerinfo
 
       - name: Checkout

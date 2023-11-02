@@ -83,5 +83,6 @@ jobs:
         shell: cmd
         run: |
           echo "Hello, DOS"
+          echo %COMMIT_REF%
           dir
 

@@ -171,7 +171,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: *.zip
+          name: "${{env.ZIPFILE}}"
 #         path: target/release/foo 
 
       - name: Attach Release Archive

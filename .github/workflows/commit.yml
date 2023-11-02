@@ -172,7 +172,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: "${{env.ZIPFILE}}"
-#         path: target/release/foo 
+          path: target/release/sandbox 
+
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+
+      - name: Rename binaries
+        run: |
+          dir
 
       - name: Attach Release Archive
         uses: wrljet/actions/packages/automatic-releases@built-packages

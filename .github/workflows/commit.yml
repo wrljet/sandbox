@@ -55,9 +55,9 @@ jobs:
           echo 'Building on Windows Not Implemented Yet'
           echo '$psversiontable...'
           $psversiontable
-          write-host "Hello World"
-          # echo 'get-computerinfo...'
-          # get-computerinfo
+          echo 'get-computerinfo...'
+          get-computerinfo
+          echo "---"
           echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
 
       - name: Checkout
@@ -180,6 +180,7 @@ jobs:
       - name: Review binaries
         run: |
           dir
+          dir release.zips
 
       - name: Attach Release Archive
         uses: wrljet/actions/packages/automatic-releases@built-packages

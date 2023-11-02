@@ -50,7 +50,7 @@ jobs:
     runs-on: windows-2022 # Windows Server 2022
 
     steps:
-      - name: Foo
+      - name: Build System Info
         run: |
           echo 'Building on Windows Not Implemented Yet'
           echo '$psversiontable...'
@@ -111,7 +111,6 @@ jobs:
       - name: Command Shell
         shell: cmd
         run: |
-          echo "Hello, DOS"
           dir
           dir ..
           echo GITHUB_SHA: %GITHUB_SHA%
@@ -138,5 +137,31 @@ jobs:
             popd
           popd
 
+      - name: Create Release Archive
+        run: |
+          echo "SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz"
+          # tar cfz SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz /usr/local/hercules
+
+      - name: Set Title
+        run: |
+          echo "Tag: ${{github.ref_name}}"
+          # if grep -q "develop" <<< "${{github.ref_name}}"; then
+            $TITLE="SDL-Hyperion Development Snapshot"
+          # else
+          #  $TITLE="SDL-Hyperion"
+          # fi
+          echo "Title: $TITLE"
+          #echo "TITLE=$TITLE" >>$GITHUB_ENV
+
+#      - name: Attach Release Archive
+#        uses: wrljet/actions/packages/automatic-releases@built-packages
+#        # uses: "marvinpinto/action-automatic-releases@latest"
+#        with:
+#          repo_token: "${{secrets.GITHUB_TOKEN}}"
+#          automatic_release_tag: "develop"
+#          prerelease: true
+#          title: "${{env.TITLE}} ${{github.ref_name}}"
+#          files: |
+#            SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz
 
 

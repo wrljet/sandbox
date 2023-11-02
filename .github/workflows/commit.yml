@@ -172,7 +172,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: "${{env.ZIPFILE}}"
-          name: "zips"
+          name: "release.zips"
 
       - name: Download binaries
         uses: actions/download-artifact@v2
@@ -189,6 +189,6 @@ jobs:
           prerelease: true
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            "**/zips"
+            "**/release.zips"
 
 ### END ###

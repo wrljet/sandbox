@@ -58,7 +58,7 @@ jobs:
           write-host "Hello World"
           # echo 'get-computerinfo...'
           # get-computerinfo
-          echo "$env:GITHUB_WORKSPACE"
+          echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
 
       - name: Checkout
         uses: actions/checkout@v3.3.0
@@ -66,7 +66,7 @@ jobs:
       - name: Get Commit Ref
         run: |
           echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
-          dir
+          dir ..
           git rev-parse --short $env:GITHUB_SHA
           $env:COMMIT_REF = (git rev-parse --short $env:GITHUB_SHA)
           echo "COMMIT_REF: $env:COMMIT_REF"

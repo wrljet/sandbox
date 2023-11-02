@@ -65,11 +65,10 @@ jobs:
 
       - name: Get Commit Ref
         run: |
-          echo "$env:GITHUB_WORKSPACE"
+          echo "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
           dir
-          # COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)
           git rev-parse --short $env:GITHUB_SHA
           $env:COMMIT_REF = (git rev-parse --short $env:GITHUB_SHA)
           echo "COMMIT_REF: $env:COMMIT_REF"
-          echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
+          # echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
 

@@ -153,8 +153,7 @@ jobs:
 
       - name: Set Title
         run: |
-          # echo "Tag: ${{github.ref_name}}"
-          echo "Tag: latest"
+          echo "Tag: latest-${{github.ref_name}}"
           # if grep -q "develop" <<< "${{github.ref_name}}"; then
             $env:TITLE="SDL-Hyperion Development Snapshot"
           # else
@@ -167,10 +166,10 @@ jobs:
         uses: wrljet/actions/packages/automatic-releases@built-packages
         with:
           repo_token: "${{secrets.GITHUB_TOKEN}}"
-          automatic_release_tag: "latest-develop"
+          automatic_release_tag: "latest-${{github.ref_name}}"
           prerelease: true
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            goo.zip
+            "${{env.TITLE}}"
 
-
+### END ###

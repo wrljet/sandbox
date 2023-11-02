@@ -63,3 +63,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.3.0
 
+      - name: Get Commit Ref
+        run: |
+          echo "$env:GITHUB_WORKSPACE"
+          dir

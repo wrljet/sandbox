@@ -139,7 +139,7 @@ jobs:
 
       - name: Create Release Archive
         run: |
-          echo "SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz"
+          echo "SDL-Hyperion-${{github.ref_name}}-${{env:COMMIT_REF}}-Ubuntu.tar.gz"
           # tar cfz SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz /usr/local/hercules
 
       - name: Set Title

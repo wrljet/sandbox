@@ -54,5 +54,5 @@ jobs:
         run: |
           echo 'Building on Windows Not Implemented Yet'
           # pwd
-          cd
+          dir
 

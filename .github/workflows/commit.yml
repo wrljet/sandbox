@@ -140,7 +140,7 @@ jobs:
       - name: Create Release Archive
         run: |
           echo "COMMIT_REF: $env:COMMIT_REF"
-          $env:ZIPFILE="..\Hercules-${{github.ref_name}}-g$env:COMMIT_REF-x64.zip"
+          $env:ZIPFILE="Hercules-${{github.ref_name}}-g$env:COMMIT_REF-x64.zip"
           echo "ZIPFILE=$env:ZIPFILE" >>$env:GITHUB_ENV
           echo $env:ZIPFILE
           dir
@@ -170,6 +170,6 @@ jobs:
           prerelease: true
           title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            "${{env.ZIPFILE}}"
+            "..\${{env.ZIPFILE}}"
 
 ### END ###

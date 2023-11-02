@@ -78,17 +78,24 @@ jobs:
         run: |
           echo "Hello, DOS"
           dir
-          echo %GITHUB_SHA%
-          git rev-parse --short %GITHUB_SHA%
+          echo GITHUB_SHA: %GITHUB_SHA%
           set "git_hash=-gHHHHHHH"
           for /f %%a in ('git rev-parse --short HEAD') do set "COMMIT_REF=%%a"
-          echo %COMMIT_REF%
           echo GIT_HASH: %COMMIT_REF%
           ::
           pushd ..
           dir
           git clone https://github.com/wrljet/hercules-helper-windows.git
+          git clone https://github.com/SDL-Hercules-390/hyperion.git
           dir
           popd
           ::
+          dir "C:\Program Files\Microsoft Visual Studio\2022"
+          set HERCULES_HELPER_BUILD_DIR=%cd%\hercules-build
+          set HERCULES_HELPER_VCVARS_CMD=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat
+          pushd "%HERCULES_HELPER_BUILD_DIR%\sdl-hyperion"
+          set HERCULES_BUILD_DIR=%cd%\msvc.AMD64.bin
+          call "%HERCULES_HELPER_VCVARS_CMD%"
+
+
 

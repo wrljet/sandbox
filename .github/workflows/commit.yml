@@ -85,7 +85,9 @@ jobs:
             $URL = "http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
             $OutFile = "ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
             Invoke-WebRequest -URI $URL -OutFile $OutFile
+            dir
           popd
+          dir
 
 
       - name: Command Shell
@@ -113,11 +115,6 @@ jobs:
               set HERCULES_BUILD_DIR=%cd%\msvc.AMD64.bin
               call "%HERCULES_HELPER_VCVARS_CMD%"
               :: set /P dummy=
-              mkdir winbuild
-              pushd winbuild
-                set "ZIPFILE=ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
-                wget -nc http://www.softdevlabs.com/downloads/%ZIPFILE%
-              popd
               ::
               call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** Hercules-Helper Test Build ***" -a
             popd

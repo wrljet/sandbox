@@ -1,0 +1,56 @@
+name: Commit Build
+run-name: ${{ github.actor }} is doing a develop build
+
+on:
+  push:
+    branches:
+      - "develop"
+      - "workflow"
+
+jobs:
+  buildOnLinux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Get Commit Ref
+        run: |
+          pwd
+          COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)
+          echo "COMMIT_REF: $COMMIT_REF"
+          echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
+
+############
+
+  buildOnMacOS:
+    runs-on: macOS-12 # Monterey
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Get Commit Ref
+        run: |
+          COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)
+          echo "COMMIT_REF: $COMMIT_REF"
+          echo "COMMIT_REF=$COMMIT_REF" >>$GITHUB_ENV
+          ls -l
+
+      - name: Install Packages
+        run: |
+          brew install cmake
+
+
+############
+
+  buildOnWindows:
+    runs-on: windows-2022 # Windows Server 2022
+
+    steps:
+      - name: Foo
+        run: |
+          echo 'Building on Windows Not Implemented Yet'
+

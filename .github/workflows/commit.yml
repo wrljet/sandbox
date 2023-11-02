@@ -141,6 +141,14 @@ jobs:
         run: |
           echo "COMMIT_REF: $env:COMMIT_REF"
           echo "SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip"
+          $ZIPFILE="SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip"
+          echo $ZIPFILE
+          dir
+          dir ..
+          # Create a zip file with the contents of msvc.AMD64.bin
+          Compress-Archive -Path ..\hyperion\msvc.AMD64.bin -DestinationPath $ZIPFILE
+          dir
+          dir ..
           # tar cfz SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz /usr/local/hercules
 
       - name: Set Title
@@ -152,7 +160,7 @@ jobs:
           #  $TITLE="SDL-Hyperion"
           # fi
           echo "Title: $TITLE"
-          #echo "TITLE=$TITLE" >>$GITHUB_ENV
+          echo "TITLE=$env:TITLE" >>$env:GITHUB_ENV
 
 #      - name: Attach Release Archive
 #        uses: wrljet/actions/packages/automatic-releases@built-packages
@@ -163,6 +171,6 @@ jobs:
 #          prerelease: true
 #          title: "${{env.TITLE}} ${{github.ref_name}}"
 #          files: |
-#            SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz
+#            SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip
 
 

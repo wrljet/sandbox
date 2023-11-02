@@ -87,18 +87,23 @@ jobs:
             $URL = "http://www.softdevlabs.com/downloads/$ZIPFILE"
             $OutFile = "$ZIPFILE"
             Invoke-WebRequest -URI $URL -OutFile $OutFile
+            Expand-Archive -Path $ZIPFILE -DestinationPath "zlib"
             #
             $ZIPFILE ="BZIP2-1.0.6-bin-lib-inc-vc2008-x86-x64.zip"
             $URL = "http://www.softdevlabs.com/downloads/$ZIPFILE"
             $OutFile = "$ZIPFILE"
             Invoke-WebRequest -URI $URL -OutFile $OutFile
+            Expand-Archive -Path $ZIPFILE -DestinationPath "bzip2"
             #
             $ZIPFILE = "PCRE-6.4.1-bin-lib-inc-vc2008-x86-x64.zip"
             $URL = "http://www.softdevlabs.com/downloads/$ZIPFILE"
             $OutFile = "$ZIPFILE"
             Invoke-WebRequest -URI $URL -OutFile $OutFile
+            Expand-Archive -Path $ZIPFILE -DestinationPath "pcre"
             #
+            # D:\a\sandbox\hyperion\winbuild
             dir
+            #
           popd
           dir
 

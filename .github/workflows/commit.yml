@@ -81,12 +81,12 @@ jobs:
             git clone https://github.com/SDL-Hercules-390/hyperion.git
             dir
             mkdir hyperion\winbuild
+            cd hyperion\winbuild
+            $URL = "http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
+            $OutFile = "ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip"
+            Invoke-WebRequest -URI $URL -OutFile $OutFile
           popd
 
-      - name: Wget Packages
-        uses: wei/wget@v1
-        with:
-          args: -O logfile.txt -P . http://www.softdevlabs.com/downloads/ZLIB1-1.2.11-bin-lib-inc-vc2008-x86-x64.zip
 
       - name: Command Shell
         shell: cmd

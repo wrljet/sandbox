@@ -84,11 +84,10 @@ jobs:
           echo GIT_HASH: %COMMIT_REF%
           ::
           pushd ..
-          dir
-          git clone https://github.com/wrljet/hercules-helper-windows.git
-          git clone https://github.com/SDL-Hercules-390/hyperion.git
-          dir
-          popd
+            dir
+            git clone https://github.com/wrljet/hercules-helper-windows.git
+            git clone https://github.com/SDL-Hercules-390/hyperion.git
+            dir
           ::
           rem dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"
           ::
@@ -100,6 +99,7 @@ jobs:
           pushd "%HERCULES_HELPER_BUILD_DIR%"
           set HERCULES_BUILD_DIR=%cd%\msvc.AMD64.bin
           call "%HERCULES_HELPER_VCVARS_CMD%"
+          popd
           popd
 
 

@@ -87,4 +87,8 @@ jobs:
           dir
           echo %GITHUB_SHA%
           git rev-parse --short %GITHUB_SHA%
+          set "git_hash=-gHHHHHHH"
+          for /f %%a in ('%git% rev-parse --short HEAD') do set "git_hash=-g%%a"
+          echo %git_hash%
+          echo "GIT_HASH: %git_hash%"
 

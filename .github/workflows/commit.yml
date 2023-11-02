@@ -53,6 +53,9 @@ jobs:
       - name: Foo
         run: |
           echo 'Building on Windows Not Implemented Yet'
-          # pwd
-          dir
+          $psversiontable
+          write-host "Hello World"
+          get-computerinfo
 
+      - name: Checkout
+        uses: actions/checkout@v3.3.0

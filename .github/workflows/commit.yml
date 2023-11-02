@@ -168,8 +168,8 @@ jobs:
           repo_token: "${{secrets.GITHUB_TOKEN}}"
           automatic_release_tag: "develop"
           prerelease: true
-          title: "$env:TITLE ${{github.ref_name}}"
+          title: "${{env.TITLE}} ${{github.ref_name}}"
           files: |
-            $env:ZIPFILE
+            foo.zip
 
 

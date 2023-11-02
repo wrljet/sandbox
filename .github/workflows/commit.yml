@@ -84,11 +84,11 @@ jobs:
           for /f %%a in ('git rev-parse --short HEAD') do set "COMMIT_REF=%%a"
           echo %COMMIT_REF%
           echo GIT_HASH: %COMMIT_REF%
-          #
+          ::
           pushd ..
           dir
           git clone https://github.com/wrljet/hercules-helper-windows.git
           dir
           popd
-          #
+          ::
 

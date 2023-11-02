@@ -140,37 +140,36 @@ jobs:
       - name: Create Release Archive
         run: |
           echo "COMMIT_REF: $env:COMMIT_REF"
-          echo "SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip"
-          $ZIPFILE="SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip"
-          echo $ZIPFILE
+          $env:ZIPFILE="Hercules-${{github.ref_name}}-g$env:COMMIT_REF-x64.zip"
+          echo "ZIPFILE=$env:ZIPFILE" >>$env:GITHUB_ENV
+          echo $env:ZIPFILE
           dir
           dir ..
-          # Create a zip file with the contents of msvc.AMD64.bin
-          Compress-Archive -Path ..\hyperion\msvc.AMD64.bin -DestinationPath $ZIPFILE
-          dir
-          dir ..
-          # tar cfz SDL-Hyperion-${{github.ref_name}}-${{env.COMMIT_REF}}-Ubuntu.tar.gz /usr/local/hercules
+          pushd ..
+            # Create a zip file with the contents of msvc.AMD64.bin
+            Compress-Archive -Path hyperion\msvc.AMD64.bin -DestinationPath $env:ZIPFILE
+            dir
+          popd
 
       - name: Set Title
         run: |
           echo "Tag: ${{github.ref_name}}"
           # if grep -q "develop" <<< "${{github.ref_name}}"; then
-            $TITLE="SDL-Hyperion Development Snapshot"
+            $env:TITLE="SDL-Hyperion Development Snapshot"
           # else
-          #  $TITLE="SDL-Hyperion"
+          #  $env:TITLE="SDL-Hyperion"
           # fi
-          echo "Title: $TITLE"
+          echo "Title: $env:TITLE"
           echo "TITLE=$env:TITLE" >>$env:GITHUB_ENV
 
-#      - name: Attach Release Archive
-#        uses: wrljet/actions/packages/automatic-releases@built-packages
-#        # uses: "marvinpinto/action-automatic-releases@latest"
-#        with:
-#          repo_token: "${{secrets.GITHUB_TOKEN}}"
-#          automatic_release_tag: "develop"
-#          prerelease: true
-#          title: "${{env.TITLE}} ${{github.ref_name}}"
-#          files: |
-#            SDL-Hyperion-${{github.ref_name}}-$env:COMMIT_REF-Windows.zip
+      - name: Attach Release Archive
+        uses: wrljet/actions/packages/automatic-releases@built-packages
+        with:
+          repo_token: "${{secrets.GITHUB_TOKEN}}"
+          automatic_release_tag: "develop"
+          prerelease: true
+          title: "$env:TITLE ${{github.ref_name}}"
+          files: |
+            $env:ZIPFILE
 
 

@@ -171,6 +171,9 @@ jobs:
           dir
           echo "dir .."
           dir ..
+          $env:DYNAMIC_VERSION = (Get-Content "../DYNAMIC_VERSION")
+          echo "DYNAMIC_VERSION: $env:DYNAMIC_VERSION"
+          echo "DYNAMIC_VERSION=$env:DYNAMIC_VERSION" >>$env:GITHUB_ENV
 
       - name: Upload build
         uses: actions/upload-artifact@v2

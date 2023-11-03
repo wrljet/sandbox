@@ -133,7 +133,10 @@ jobs:
               call "%HERCULES_HELPER_VCVARS_CMD%"
               :: set /P dummy=
               ::
-              call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** Hercules-Helper Test Build ***" -a
+              _dynamic_version.cmd
+              echo %VERSION%
+              ::
+              call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** GitHub Actions Build ***" -a
             popd
           popd
 

@@ -133,7 +133,7 @@ jobs:
               call "%HERCULES_HELPER_VCVARS_CMD%"
               :: set /P dummy=
               ::
-              _dynamic_version.cmd
+              call _dynamic_version.cmd
               echo %VERSION%
               ::
               call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** GitHub Actions Build ***" -a

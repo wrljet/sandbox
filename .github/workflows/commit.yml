@@ -135,7 +135,7 @@ jobs:
               ::
               call _dynamic_version.cmd
               echo Build version info: %VERSION%
-              echo "%VERSION%" > ..\DYNAMIC_VERSION
+              echo %VERSION% > ..\DYNAMIC_VERSION
               ::
               call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** GitHub Actions Build ***" -a
             popd

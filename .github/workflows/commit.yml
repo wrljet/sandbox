@@ -172,7 +172,7 @@ jobs:
           dir
           echo "dir .."
           dir ..
-          echo %DYNAMIC_VERSION%
+          echo "DYNAMIC_VERSION: $env:DYNAMIC_VERSION"
 
       - name: Upload build
         uses: actions/upload-artifact@v2

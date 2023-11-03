@@ -136,6 +136,7 @@ jobs:
               call _dynamic_version.cmd
               :: Remove double quotes from Fish's version string
               set VERSION=%VERSION:"=%
+              set VERSION=%VERSION: =%
               echo Build version info: %VERSION%
               echo %VERSION% > ..\DYNAMIC_VERSION
               ::

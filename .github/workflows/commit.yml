@@ -134,7 +134,9 @@ jobs:
               :: set /P dummy=
               ::
               call _dynamic_version.cmd
-              echo %VERSION%
+              echo Build version info: %VERSION%
+              set "DYNAMIC_VERSION=%VERSION%"
+              set "GITHUB_ENV=%GITHUB_ENV%DYNAMIC_VERSION"
               ::
               call makefile.bat RETAIL-X64 makefile.msvc 8 -title "*** GitHub Actions Build ***" -a
             popd
@@ -170,6 +172,7 @@ jobs:
           dir
           echo "dir .."
           dir ..
+          echo %DYNAMIC_VERSION%
 
       - name: Upload build
         uses: actions/upload-artifact@v2

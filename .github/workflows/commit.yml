@@ -34,6 +34,8 @@ jobs:
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
             #
+            which bash
+            #
             export OPT_BUILD_DIR=~/herctest/hyperion
             export OPT_INSTALL_DIR="/usr/local"
             #
@@ -69,12 +71,14 @@ jobs:
             wget $OPT_REGINA_URL
             tar xfz "$OPT_REGINA_TARFILE"
             pwd
-            pushd $OPT_REGINA_DIR
+            # pushd $OPT_REGINA_DIR
+            cd $OPT_REGINA_DIR
             ./configure --libdir=/usr/lib
             ./config.status --config
             make
             sudo make install
-            popd
+            #popd
+            cd -
             #
             ldconfig
             echo "Files:"

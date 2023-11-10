@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [armv6l, armv7l, aarch64]
+        arch: [armv7l, aarch64]
+        #arch: [armv6l, armv7l, aarch64]
         include:
         - arch: armv6l
           cpu: arm1176
@@ -31,6 +32,13 @@ jobs:
             grep Model /proc/cpuinfo
             #
             pwd
-            which git wget gcc || :
-
+            which git wget gcc || true
+            #
+            sudo apt-get install git wget time ncat
+            sudo apt-get install build-essential
+            sudo apt-get install cmake autoconf automake flex gawk m4
+            sudo apt-get install libltdl-dev libtool-bin libcap2-bin libbz2-dev zlib1g-dev
+            #
+            git clone https://github.com/wrljet/hercules-helper.git
+            ls -l
 

@@ -156,7 +156,10 @@ jobs:
             make install
             cd -
             #
-            mkdir -p $OPT_BUILD_DIR/hyperion/build
-            cd $OPT_BUILD_DIR/hyperion/build
+            mkdir -p $OPT_BUILD_DIR/build
+            cd $OPT_BUILD_DIR/build
             #
+            make clean
+            make -j 4 all
+            sudo make install
 

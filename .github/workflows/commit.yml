@@ -29,4 +29,8 @@ jobs:
         commands: |
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
+            #
+            pwd
+            which git wget gcc
+
 

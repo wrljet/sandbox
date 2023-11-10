@@ -1,13 +1,15 @@
 name: Test architecture matrix
 run-name: ${{ github.actor }} is doing a develop build
+
 on: [push, pull_request, workflow_dispatch]
+#        arch: [armv6l, armv7l, aarch64]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         arch: [armv7l, aarch64]
-        #arch: [armv6l, armv7l, aarch64]
         include:
         - arch: armv6l
           cpu: arm1176

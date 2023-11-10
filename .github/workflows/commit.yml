@@ -34,17 +34,17 @@ jobs:
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
             #
-            opt_build_dir=~/herctest/hyperion
-            opt_install_dir="/usr/local"
+            export OPT_BUILD_DIR=~/herctest/hyperion
+            export OPT_INSTALL_DIR="/usr/local"
             #
-            opt_regina_dir="Regina-REXX-3.6"
-            opt_regina_tarfile="Regina-REXX-3.6.tar.gz"
-            opt_regina_url="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
-            git_repo_hercules="https://github.com/SDL-Hercules-390/hyperion.git"
-            git_branch_hercules="develop"
-            git_commit_hercules=""
-            git_repo_extpkgs="https://github.com/SDL-Hercules-390"
-            git_branch_extpkgs=""
+            export OPT_REGINA_DIR="Regina-REXX-3.6"
+            export OPT_REGINA_TARFILE="Regina-REXX-3.6.tar.gz"
+            export OPT_REGINA_URL="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
+            export GIT_REPO_HERCULES="https://github.com/SDL-Hercules-390/hyperion.git"
+            export GIT_BRANCH_HERCULES="develop"
+            export GIT_COMMIT_HERCULES=""
+            export GIT_REPO_EXTPKGS="https://github.com/SDL-Hercules-390"
+            export GIT_BRANCH_EXTPKGS=""
             #
             pwd
             #
@@ -57,15 +57,15 @@ jobs:
             git clone https://github.com/wrljet/hercules-helper.git
             ls -l
             #
-            mkdir -p $opt_install_dir
-            mkdir -p $opt_build_dir
-            cd $opt_build_dir
-            rm hyperion
+            mkdir -p $OPT_INSTALL_DIR
+            mkdir -p $OPT_BUILD_DIR
+            cd $OPT_BUILD_DIR
+            rm -rf hyperion || true
             #
             which rexx && true
-            export OPT_REGINA_URL="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
-            export OPT_REGINA_TARFILE="Regina-REXX-3.6.tar.gz"
-            export OPT_REGINA_DIR="Regina-REXX-3.6"
+            #export OPT_REGINA_URL="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
+            #export OPT_REGINA_TARFILE="Regina-REXX-3.6.tar.gz"
+            #export OPT_REGINA_DIR="Regina-REXX-3.6"
             wget $OPT_REGINA_URL
             tar xfz "$OPT_REGINA_TARFILE"
             pwd
@@ -82,20 +82,20 @@ jobs:
             find /usr/local/include -name 'rexx*.h' 2>&1
             #
             # git clone required repos
-            cd $opt_build_dir
-            rm -rf hyperion
-            git clone -b $git_branch_hercules $git_repo_hercules
-            cd $opt_build_dir
+            cd $OPT_BUILD_DIR
+            rm -rf hyperion || true
+            git clone -b $GIT_BRANCH_HERCULES $GIT_REPO_HERCULES
+            cd $OPT_BUILD_DIR
             rm -rf extpkgs
             mkdir extpkgs
             cd extpkgs/
             rm -rf *
-            git clone $git_repo_extpkgs/crypto
-            git clone $git_repo_extpkgs/decNumber
-            git clone $git_repo_extpkgs/SoftFloat
-            git clone $git_repo_extpkgs/telnet
+            git clone $GIT_REPO_EXTPKGS/crypto
+            git clone $GIT_REPO_EXTPKGS/decNumber
+            git clone $GIT_REPO_EXTPKGS/SoftFloat
+            git clone $GIT_REPO_EXTPKGS/telnet
             #
-            cd $opt_build_dir/hyperion
+            cd $OPT_BUILD_DIR/hyperion
             #
             # Check program versions
             util/bldlvlck

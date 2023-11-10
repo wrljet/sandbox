@@ -34,11 +34,14 @@ jobs:
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
             #
-            which bash
+            echo "uname -m: $(uname -m)"
+            echo "uname -r: $(uname -r)"
+            echo "uname -a: $(uname -a)"
             #
             export OPT_BUILD_DIR=~/herctest/hyperion
             export OPT_INSTALL_DIR="/usr/local"
             #
+            export SCRIPT_DIR=~/hercules-helper
             export OPT_REGINA_DIR="Regina-REXX-3.6"
             export OPT_REGINA_TARFILE="Regina-REXX-3.6.tar.gz"
             export OPT_REGINA_URL="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
@@ -73,6 +76,13 @@ jobs:
             pwd
             # pushd $OPT_REGINA_DIR
             cd $OPT_REGINA_DIR
+            #
+            echo "Patching Regina 3.6 source for aarch64"
+            patch -u configure -i "$SCRIPT_DIR/patches/regina-rexx-3.6.patch"
+            echo "Replacing config.{guess,sub}"
+            cp "$SCRIPT_DIR/patches/config.guess" ./common/
+            cp "$SCRIPT_DIR/patches/config.sub" ./common/
+            #
             ./configure --libdir=/usr/lib
             ./config.status --config
             make

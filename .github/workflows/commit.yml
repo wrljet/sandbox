@@ -31,6 +31,6 @@ jobs:
             grep Model /proc/cpuinfo
             #
             pwd
-            which git wget gcc
+            which git wget gcc && true
 
 

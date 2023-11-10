@@ -19,7 +19,7 @@ jobs:
         - arch: aarch64
           cpu: cortex-a53
           base_image: raspios_lite_arm64:latest
-          cpu_info: cpuinfo/raspberrypi_zero2_w_arm64_w
+          cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
     steps:
     - uses: pguyot/arm-runner-action@v2
       with:

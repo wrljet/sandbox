@@ -115,4 +115,47 @@ jobs:
             # Check program versions
             util/bldlvlck
             #
+            # Prepare and build extpkgs
+            cd $OPT_BUILD_DIR/extpkgs
+            rm -rf lib/
+            #
+            mkdir -p build/crypto64.Release
+            cd build/crypto64.Release
+            rm -f CMakeCache.txt
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/crypto
+            make clean
+            make -j 4 all
+            make install
+            cd -
+            #
+            mkdir -p build/decNumber64.Release
+            cd build/decNumber64.Release
+            rm -f CMakeCache.txt
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/decNumber
+            make clean
+            make -j 4 all
+            make install
+            cd -
+            #
+            mkdir -p build/SoftFloat64.Release
+            cd build/SoftFloat64.Release
+            rm -f CMakeCache.txt
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/SoftFloat
+            make clean
+            make -j 4 all
+            make install
+            cd -
+            #
+            mkdir -p build/telnet64.Release
+            cd build/telnet64.Release
+            rm -f CMakeCache.txt
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/telnet
+            make clean
+            make -j 4 all
+            make install
+            cd -
+            #
+            mkdir -p $OPT_BUILD_DIR/hyperion/build
+            cd $OPT_BUILD_DIR/hyperion/build
+            #
 

@@ -38,10 +38,10 @@ jobs:
             echo "uname -r: $(uname -r)"
             echo "uname -a: $(uname -a)"
             #
-            export OPT_BUILD_DIR=~/herctest/hyperion
+            export OPT_BUILD_DIR=/sandbox/herctest/hyperion
             export OPT_INSTALL_DIR="/usr/local"
             #
-            export SCRIPT_DIR=~/hercules-helper
+            export SCRIPT_DIR=/sandbox/hercules-helper
             export OPT_REGINA_DIR="Regina-REXX-3.6"
             export OPT_REGINA_TARFILE="Regina-REXX-3.6.tar.gz"
             export OPT_REGINA_URL="http://www.wrljet.com/ibm360/Regina-REXX-3.6.tar.gz"
@@ -51,6 +51,7 @@ jobs:
             export GIT_REPO_EXTPKGS="https://github.com/SDL-Hercules-390"
             export GIT_BRANCH_EXTPKGS=""
             #
+            # reports: /sandbox
             pwd
             #
             sudo apt-get install -y git wget time ncat

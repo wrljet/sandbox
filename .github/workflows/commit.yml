@@ -97,10 +97,11 @@ jobs:
             find /usr/local/include -name 'rexx*.h' 2>&1
             #
             # git clone required repos
-            cd $OPT_BUILD_DIR
+            cd $OPT_BUILD_DIR/..
             rm -rf hyperion || true
             git clone -b $GIT_BRANCH_HERCULES $GIT_REPO_HERCULES
-            cd $OPT_BUILD_DIR
+            #
+            cd $OPT_BUILD_DIR/..
             rm -rf extpkgs
             mkdir extpkgs
             cd extpkgs/
@@ -116,7 +117,7 @@ jobs:
             util/bldlvlck
             #
             # Prepare and build extpkgs
-            cd $OPT_BUILD_DIR/extpkgs
+            cd $OPT_BUILD_DIR/../extpkgs
             rm -rf lib/
             #
             mkdir -p build/crypto64.Release

@@ -38,7 +38,7 @@ jobs:
             echo "uname -r: $(uname -r)"
             echo "uname -a: $(uname -a)"
             #
-            export OPT_BUILD_DIR=/sandbox/herctest/hyperion
+            export OPT_BUILD_DIR=/sandbox/herctest
             export OPT_INSTALL_DIR="/usr/local"
             #
             export SCRIPT_DIR=/sandbox/hercules-helper
@@ -64,7 +64,7 @@ jobs:
             ls -l
             #
             mkdir -p $OPT_INSTALL_DIR
-            mkdir -p $OPT_BUILD_DIR
+            mkdir -p $OPT_BUILD_DIR/hyperion
             cd $OPT_BUILD_DIR
             rm -rf hyperion || true
             #
@@ -97,11 +97,11 @@ jobs:
             find /usr/local/include -name 'rexx*.h' 2>&1
             #
             # git clone required repos
-            cd $OPT_BUILD_DIR/..
+            cd $OPT_BUILD_DIR
             rm -rf hyperion || true
             git clone -b $GIT_BRANCH_HERCULES $GIT_REPO_HERCULES
             #
-            cd $OPT_BUILD_DIR/..
+            cd $OPT_BUILD_DIR
             rm -rf extpkgs
             mkdir extpkgs
             cd extpkgs/
@@ -117,7 +117,7 @@ jobs:
             util/bldlvlck
             #
             # Prepare and build extpkgs
-            cd $OPT_BUILD_DIR/../extpkgs
+            cd $OPT_BUILD_DIR/extpkgs
             rm -rf lib/
             #
             mkdir -p build/crypto64.Release
@@ -156,8 +156,8 @@ jobs:
             make install
             cd -
             #
-            mkdir -p $OPT_BUILD_DIR/build
-            cd $OPT_BUILD_DIR/build
+            mkdir -p $OPT_BUILD_DIR/hyperion/build
+            cd $OPT_BUILD_DIR/hyperion/build
             #
             make clean
             make -j 4 all

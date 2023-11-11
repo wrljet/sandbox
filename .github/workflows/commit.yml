@@ -271,8 +271,14 @@ jobs:
             ./config.status --config
             #
             make clean
-
-            make clean
-            make -j 4 all
+            time make -j 2 2>&1
+            time make check
             sudo make install
+            #
+            sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/hercules
+            sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/herclin
+            sudo setcap 'cap_net_admin+ep' $OPT_INSTALL_DIR/bin/hercifc
+            #
+            pwd
+            readelf -p .GCC.command.line $OPT_INSTALL_DIR/bin/hercules > hercules-gcc-options.txt
 

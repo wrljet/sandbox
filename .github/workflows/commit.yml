@@ -39,6 +39,49 @@ jobs:
             echo "uname -r: $(uname -r)"
             echo "uname -a: $(uname -a)"
             #
+            OS_BITFLAG="32"
+            #
+            case "${os_name}" in
+               *hp-hpux*)
+                  ;;
+               *ibm-aix*)
+                  rc=`lsconf -k | grep -c 64-bit`
+                  if test $rc -eq 1; then
+                     OS_BITFLAG="64"
+                  fi
+                  ;;
+               i*86*solaris*)
+                  ;;
+               *solaris*)
+                  rc=`isainfo -v | grep -c 64-bit`
+                  if test $rc -eq 1; then
+                     OS_BITFLAG="64"
+                  fi
+                  ;;
+               sparc*sunos*)
+                  ;;
+               Linux)
+                  mach="`uname -m`"
+                  if test "$mach" = "aarch64" -o "$mach" = "x86_64" -o "$mach" = "ia86" -o "$mach" = "alpha" -o "$mach" = "ppc64" -o "$mach" = "ppc64le" -o "$mach" = "s390x" -o "$mach" = "e2k" -o "$mach" = "riscv64" ; then
+                     OS_BITFLAG="64"
+                  fi
+                  ;;
+               FreeBSD|OpenBSD|NetBSD)
+                  mach="`uname -m`"
+                  if test "$mach" = "amd64" -o "$mach" = "sparc64" ; then
+                     OS_BITFLAG="64"
+                  fi
+                  ;;
+               Darwin)
+                  os_osx_64bit=`sysctl hw.cpu64bit_capable | cut -f2 -d' '`
+                  if test $os_osx_64bit -eq 1; then
+                     OS_BITFLAG="64"
+                  fi
+                  ;;
+            esac
+            #
+            echo "Platform Bitness : $OS_BITFLAG"
+            #
             export OPT_BUILD_DIR=/sandbox/herctest
             export OPT_INSTALL_DIR="/usr/local"
             #
@@ -181,8 +224,8 @@ jobs:
             for pkg in crypto decNumber SoftFloat telnet; do
                 echo "Building extpkg: $pkg"
             #
-                mkdir -p build/${pkg}$os_bitflag.Release
-                cd build/${pkg}$os_bitflag.Release
+                mkdir -p build/${pkg}$OS_BITFLAG.Release
+                cd build/${pkg}$OS_BITFLAG.Release
             #
                     # Clear CMake cache in case we've changed the options
                     rm -f CMakeCache.txt

@@ -121,41 +121,101 @@ jobs:
             cd $OPT_BUILD_DIR/extpkgs
             rm -rf lib/
             #
-            mkdir -p build/crypto64.Release
-            cd build/crypto64.Release
-            rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/crypto
-            make clean
-            make -j 4 all
-            make install
-            cd -
+            # We do this to match the way it's done in Hercules configure
+            target_cpu=$(uname -m)
+            case "$target_cpu" in
+                i*86|x86*)
+                    hc_cv_cpu_arch=x86
+                    hc_cv_pkg_lib_subdir=""
+                    ;;
+                amd64*)
+                    hc_cv_cpu_arch=x86
+                    hc_cv_pkg_lib_subdir=""
+                    ;;
+                aarch64*)
+                    hc_cv_cpu_arch=aarch64
+                    hc_cv_pkg_lib_subdir="/aarch64"
+                    ;;
+                arm64*)
+                    hc_cv_cpu_arch=aarch64
+                    hc_cv_pkg_lib_subdir="/aarch64"
+                    ;;
+                arm*)
+                    hc_cv_cpu_arch=arm
+                    hc_cv_pkg_lib_subdir="/arm"
+                    ;;
+                e2k*)
+                    hc_cv_cpu_arch=e2k
+                    hc_cv_pkg_lib_subdir="/e2k"
+                    ;;
+                mips*)
+                    hc_cv_cpu_arch=mips
+                    hc_cv_pkg_lib_subdir="/mips"
+                    ;;
+                ppc*|powerpc*)
+                    hc_cv_cpu_arch=ppc
+                    hc_cv_pkg_lib_subdir="/ppc"
+                    ;;
+                sparc*)
+                    hc_cv_cpu_arch=sparc
+                    hc_cv_pkg_lib_subdir="/sparc"
+                    ;;
+                s390x*)
+                    hc_cv_cpu_arch=s390x
+                    hc_cv_pkg_lib_subdir="/s390x"
+                    ;;
+                xscale*)
+                    hc_cv_cpu_arch=xscale
+                    hc_cv_pkg_lib_subdir="/xscale"
+                    ;;
+                riscv64*)
+                    hc_cv_cpu_arch=riscv64
+                    hc_cv_pkg_lib_subdir="/riscv64"
+                    ;;
+                *)
+                    hc_cv_cpu_arch=unknown
+                    hc_cv_pkg_lib_subdir="/unknown"
+                    ;;
+            esac
             #
-            mkdir -p build/decNumber64.Release
-            cd build/decNumber64.Release
-            rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/decNumber
-            make clean
-            make -j 4 all
-            make install
-            cd -
+            rm -rf lib/
             #
-            mkdir -p build/SoftFloat64.Release
-            cd build/SoftFloat64.Release
-            rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/SoftFloat
-            make clean
-            make -j 4 all
-            make install
-            cd -
+            for pkg in crypto decNumber SoftFloat telnet; do
+                verbose_msg "Building extpkg: $pkg"
             #
-            mkdir -p build/telnet64.Release
-            cd build/telnet64.Release
-            rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/telnet
-            make clean
-            make -j 4 all
-            make install
+                mkdir -p build/${pkg}$os_bitflag.Release
+                cd build/${pkg}$os_bitflag.Release
+            #
+                    # Clear CMake cache in case we've changed the options
+                    rm -f CMakeCache.txt
+            #
+                    # e.g. OPT_CMAKE_DEFINES="-DCMAKE_C_FLAGS_RELWITHDEBINFO=\"-O3 -march=native -g\""
+                    if [ ! -z "$OPT_CMAKE_DEFINES" ] ; then
+                        verbose_msg "Adding CMake defines: $OPT_CMAKE_DEFINES"
+                    fi
+            #
+            #
+                    cmake_cmd= cmake $OPT_CMAKE_DEFINES -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib$hc_cv_pkg_lib_subdir $OPT_BUILD_DIR/extpkgs/$pkg
+            #
+                    echo $cmake_cmd
+                    eval "$cmake_cmd"
+            #
+                    rc=$?
+                    if (( $rc != 0 )); then
+                        echo "ERROR: Cmake has failed! rc=$rc";
+                        echo "ERROR: extpkgs not built";
+                        exit 3
+                    fi
+            #
+                    make clean
+                    make -j 2 all
+                    make install
+                 cd -
+                 pwd
+            done
+            #
             cd -
+            pwd
             #
             mkdir -p $OPT_BUILD_DIR/hyperion/build
             cd $OPT_BUILD_DIR/hyperion/build

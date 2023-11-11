@@ -160,6 +160,13 @@ jobs:
             mkdir -p $OPT_BUILD_DIR/hyperion/build
             cd $OPT_BUILD_DIR/hyperion/build
             #
+            # Configure and build Hercules
+            CFLAGS="-frecord-gcc-switches" ../configure --enable-optimization="-g -g3 -ggdb3 -O3 -march=native" --enable-extpkgs=$OPT_BUILD_DIR/extpkgs --prefix=$OPT_INSTALL_DIR --enable-custom="Built using Hercules-Helper (version: xxxxxxxxxxxxxxxxxxx)" --enable-regina-rexx
+            #
+            ./config.status --config
+            #
+            make clean
+
             make clean
             make -j 4 all
             sudo make install

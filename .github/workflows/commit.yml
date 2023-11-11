@@ -123,7 +123,7 @@ jobs:
             mkdir -p build/crypto64.Release
             cd build/crypto64.Release
             rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/crypto
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/crypto
             make clean
             make -j 4 all
             make install
@@ -132,7 +132,7 @@ jobs:
             mkdir -p build/decNumber64.Release
             cd build/decNumber64.Release
             rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/decNumber
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/decNumber
             make clean
             make -j 4 all
             make install
@@ -141,7 +141,7 @@ jobs:
             mkdir -p build/SoftFloat64.Release
             cd build/SoftFloat64.Release
             rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/../extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/SoftFloat
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/SoftFloat
             make clean
             make -j 4 all
             make install
@@ -150,7 +150,7 @@ jobs:
             mkdir -p build/telnet64.Release
             cd build/telnet64.Release
             rm -f CMakeCache.txt
-            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/../extpkgs/telnet
+            cmake -D INSTALL_PREFIX=$OPT_BUILD_DIR/extpkgs -DLIB_INSTALL_DIR=lib/aarch64 $OPT_BUILD_DIR/extpkgs/telnet
             make clean
             make -j 4 all
             make install

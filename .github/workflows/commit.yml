@@ -35,9 +35,13 @@ jobs:
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
             #
-            echo "uname -m: $(uname -m)"
             echo "uname -r: $(uname -r)"
             echo "uname -a: $(uname -a)"
+            os_name=$(uname -s)
+            echo "OS Type          : $os_name"
+            machine=$(uname -m)
+            echo "Machine Arch     : $machine"
+
             #
             OS_BITFLAG="32"
             #

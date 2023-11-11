@@ -178,10 +178,8 @@ jobs:
                     ;;
             esac
             #
-            rm -rf lib/
-            #
             for pkg in crypto decNumber SoftFloat telnet; do
-                verbose_msg "Building extpkg: $pkg"
+                echo "Building extpkg: $pkg"
             #
                 mkdir -p build/${pkg}$os_bitflag.Release
                 cd build/${pkg}$os_bitflag.Release

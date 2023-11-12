@@ -318,7 +318,7 @@ jobs:
             # FIXME this takes forever
             #ls -R --format=horizontal /usr/local/bin
             #
-            pushd $PACKAGE_NAME >/dev/null;
+            cd $PACKAGE_NAME
             sudo rm -rf usr
             sudo mkdir -p ./usr/local/bin
             # sudo cp -R /usr/local/ ./usr/local/
@@ -405,7 +405,8 @@ jobs:
             ls
             ls -R --format=horizontal ./usr/local
             echo
-            popd
+            cd -
+            pwd
             #
             sudo chown root:root -R ./$PACKAGE_NAME
             #

@@ -261,7 +261,6 @@ jobs:
                  pwd
             done
             #
-            cd -
             pwd
             #
             mkdir -p $OPT_BUILD_DIR/hyperion/build
@@ -280,7 +279,6 @@ jobs:
             #
             sudo make install
             #
-            cd -
             pwd
             #
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/hercules
@@ -291,11 +289,15 @@ jobs:
             #
             # Prepare dpkg
             #
+            cd $OPT_BUILD_DIR/hyperion
             echo "pwd = $(pwd)"
-            this_dir="$(readlink -f .)"
-            echo "cd = $this_dir"
-            #  echo "Packager script version: $0: $(git describe --long --tags --dirty --always 2>/dev/null)"
-            #  version_info="$0: $(git describe --long --tags --dirty --always)"
+            #
+            COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)
+            echo "COMMIT_REF: $COMMIT_REF"
+            VERSION_NAME="4.7"
+            echo "VERSION_NAME: $VERSION_NAME"
+            PACKAGE_NAME="hyperion-$VERSION_NAME"
+            echo "PACKAGE_NAME: $PACKAGE_NAME"
             #
             hercules_vers="$(./_dynamic_version . VERSION | awk '{sub("-modified","", $0); print}' | sed 's/"//g')"
             echo "Hercules package version: $hercules_vers"

@@ -6,6 +6,10 @@ run-name: ${{ github.actor }} is doing a develop build
 #          cpu: arm1176
 #          base_image: raspios_lite:latest
 #          cpu_info: cpuinfo/raspberrypi_zero_w
+        - arch: armv7l
+          cpu: cortex-a7
+          base_image: raspios_lite:latest
+          cpu_info: cpuinfo/raspberrypi_3b
 
 on: [push, pull_request, workflow_dispatch]
 
@@ -14,12 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [armv7l, aarch64]
+        arch: [aarch64]
         include:
-        - arch: armv7l
-          cpu: cortex-a7
-          base_image: raspios_lite:latest
-          cpu_info: cpuinfo/raspberrypi_3b
         - arch: aarch64
           cpu: cortex-a53
           base_image: raspios_lite_arm64:latest
@@ -40,8 +40,10 @@ jobs:
             os_name=$(uname -s)
             echo "OS Type          : $os_name"
             machine=$(uname -m)
-            echo "Machine Arch     : $machine"
-
+            #echo "Machine Arch     : $machine"
+            os_version_memory_size="$(free -m | awk '/^Mem:/{print $2}')"
+            echo "Memory Total (MB): $os_version_memory_size"
+            echo "Memory Free  (MB): $(free -m | awk '/^Mem:/{print $4}')"
             #
             OS_BITFLAG="32"
             #
@@ -278,10 +280,147 @@ jobs:
             #
             sudo make install
             #
+            cd -
+            pwd
+            #
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/hercules
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/herclin
             sudo setcap 'cap_net_admin+ep' $OPT_INSTALL_DIR/bin/hercifc
             #
-            pwd
             readelf -p .GCC.command.line $OPT_INSTALL_DIR/bin/hercules > hercules-gcc-options.txt
+            #
+            # Prepare dpkg
+            #
+            echo "pwd = $(pwd)"
+            this_dir="$(readlink -f .)"
+            echo "cd = $this_dir"
+            #  echo "Packager script version: $0: $(git describe --long --tags --dirty --always 2>/dev/null)"
+            #  version_info="$0: $(git describe --long --tags --dirty --always)"
+            #
+            hercules_vers="$(./_dynamic_version . VERSION | awk '{sub("-modified","", $0); print}' | sed 's/"//g')"
+            echo "Hercules package version: $hercules_vers"
+            #
+            SCRIPT_PATH=~/hercules-helper
+            echo "SCRIPT_PATH=$SCRIPT_PATH"
+            #SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
+            SCRIPT_DIR=~/hercules-helper
+            echo "SCRIPT_DIR=$SCRIPT_DIR"
+            #
+            dpkg_src="$SCRIPT_DIR/packagers/debian/$PACKAGE_NAME"   # hercules-helper/packagers/debian/hyperion-4.4
+            echo "dpkg_src=$dpkg_src"
+            #
+            sudo rm -rf ./$PACKAGE_NAME
+            cp -R $dpkg_src $PACKAGE_NAME/
+            sudo cp ./$PACKAGE_NAME/DEBIAN/control ./$PACKAGE_NAME/DEBIAN/control.orig
+            # must 'sudo sh -c' to get the redirection to run as root
+            sudo sh -c "sed 's/Version:.*$/Version: $hercules_vers/' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
+            cat ./$PACKAGE_NAME/DEBIAN/control
+            #
+            echo "Copy everything locally; correct libs dir"
+            #
+            # Display what got built and installed
+            # FIXME this takes forever
+            #ls -R --format=horizontal /usr/local/bin
+            #
+            pushd $PACKAGE_NAME >/dev/null;
+            sudo rm -rf usr
+            sudo mkdir -p ./usr/local/bin
+            # sudo cp -R /usr/local/ ./usr/local/
+            sudo cp /usr/local/bin/cckd2ckd ./usr/local/bin
+            sudo cp /usr/local/bin/cckd642ckd ./usr/local/bin
+            sudo cp /usr/local/bin/cckdcdsk ./usr/local/bin
+            sudo cp /usr/local/bin/cckdcdsk64 ./usr/local/bin
+            sudo cp /usr/local/bin/cckdcomp ./usr/local/bin
+            sudo cp /usr/local/bin/cckdcomp64 ./usr/local/bin
+            sudo cp /usr/local/bin/cckddiag ./usr/local/bin
+            sudo cp /usr/local/bin/cckddiag64 ./usr/local/bin
+            sudo cp /usr/local/bin/cckdmap ./usr/local/bin
+            sudo cp /usr/local/bin/cckdswap ./usr/local/bin
+            sudo cp /usr/local/bin/cckdswap64 ./usr/local/bin
+            sudo cp /usr/local/bin/cfba2fba ./usr/local/bin
+            sudo cp /usr/local/bin/cfba642fba ./usr/local/bin
+            sudo cp /usr/local/bin/ckd2cckd ./usr/local/bin
+            sudo cp /usr/local/bin/ckd2cckd64 ./usr/local/bin
+            sudo cp /usr/local/bin/convto64 ./usr/local/bin
+            sudo cp /usr/local/bin/dasdcat ./usr/local/bin
+            sudo cp /usr/local/bin/dasdconv ./usr/local/bin
+            sudo cp /usr/local/bin/dasdconv64 ./usr/local/bin
+            sudo cp /usr/local/bin/dasdcopy ./usr/local/bin
+            sudo cp /usr/local/bin/dasdcopy64 ./usr/local/bin
+            sudo cp /usr/local/bin/dasdinit ./usr/local/bin
+            sudo cp /usr/local/bin/dasdinit64 ./usr/local/bin
+            sudo cp /usr/local/bin/dasdisup ./usr/local/bin
+            sudo cp /usr/local/bin/dasdlist ./usr/local/bin
+            sudo cp /usr/local/bin/dasdload ./usr/local/bin
+            sudo cp /usr/local/bin/dasdload64 ./usr/local/bin
+            sudo cp /usr/local/bin/dasdls ./usr/local/bin
+            sudo cp /usr/local/bin/dasdpdsu ./usr/local/bin
+            sudo cp /usr/local/bin/dasdseq ./usr/local/bin
+            sudo cp /usr/local/bin/dasdser ./usr/local/bin
+            sudo cp /usr/local/bin/dmap2hrc ./usr/local/bin
+            sudo cp /usr/local/bin/fba2cfba ./usr/local/bin
+            sudo cp /usr/local/bin/fba2cfba64 ./usr/local/bin
+            sudo cp /usr/local/bin/hercifc ./usr/local/bin
+            sudo cp /usr/local/bin/herclin ./usr/local/bin
+            sudo cp /usr/local/bin/hercules ./usr/local/bin
+            sudo cp /usr/local/bin/hetget ./usr/local/bin
+            sudo cp /usr/local/bin/hetinit ./usr/local/bin
+            sudo cp /usr/local/bin/hetmap ./usr/local/bin
+            sudo cp /usr/local/bin/hetupd ./usr/local/bin
+            sudo cp /usr/local/bin/maketape ./usr/local/bin
+            sudo cp /usr/local/bin/regina ./usr/local/bin
+            sudo cp /usr/local/bin/regina-config ./usr/local/bin
+            sudo cp /usr/local/bin/rexx ./usr/local/bin
+            sudo cp /usr/local/bin/rxqueue ./usr/local/bin
+            sudo cp /usr/local/bin/rxstack ./usr/local/bin
+            sudo cp /usr/local/bin/tapecopy ./usr/local/bin
+            sudo cp /usr/local/bin/tapemap ./usr/local/bin
+            sudo cp /usr/local/bin/tapesplt ./usr/local/bin
+            sudo cp /usr/local/bin/tfprint ./usr/local/bin
+            sudo cp /usr/local/bin/tfswap ./usr/local/bin
+            sudo cp /usr/local/bin/txt2card ./usr/local/bin
+            sudo cp /usr/local/bin/vmfplc2 ./usr/local/bin
+            #
+            sudo mkdir -p ./usr/local/lib/hercules
+            sudo cp -R /usr/local/lib/hercules/* ./usr/local/lib/hercules
+            sudo cp /usr/local/lib/libhdt3420_not_mod.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libhdt3420_not_mod.so ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercd.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercd.so ./usr/local/lib/
+            sudo cp /usr/local/lib/libherc.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercs.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libherc.so ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercs.so ./usr/local/lib/
+            sudo cp /usr/local/lib/libherct.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libherct.so ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercu.la ./usr/local/lib/
+            sudo cp /usr/local/lib/libhercu.so ./usr/local/lib/
+            #
+            sudo cp -R /usr/local/share/hercules/ ./usr/local/share/
+            #
+            #sudo mv ./usr/local/lib/hercules/* ./usr/local/lib
+            #
+            #sudo mkdir -p ./usr/local/lib
+            #
+            #sudo cp /usr/local/lib/libh* ./usr/local/lib
+            #sudo cp -R /usr/local/lib/hercules ./usr/local/lib/hercules
+            echo
+            pwd
+            ls
+            ls -R --format=horizontal ./usr/local
+            echo
+            popd
+            #
+            sudo chown root:root -R ./$PACKAGE_NAME
+            #
+            echo "Delete the temporary 'make install' dir"
+            sudo rm -rf /usr/local/$PACKAGE_NAME
+            #
+            echo "Create the Debian package"
+            pwd
+            dpkg -b ./$PACKAGE_NAME
+            LINUX_DEBNAME="Hercules-$VERSION.deb"
+            echo "LINUX_DEBNAME=$LINUX_DEBNAME" >>$GITHUB_ENV
+            mv "$PACKAGE_NAME.deb" $LINUX_DEBNAME
+            ls -lh $LINUX_DEBNAME
 

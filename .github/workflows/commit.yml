@@ -302,12 +302,6 @@ jobs:
             hercules_vers="$(./_dynamic_version . VERSION | awk '{sub("-modified","", $0); print}' | sed 's/"//g')"
             echo "Hercules package version: $hercules_vers"
             #
-            SCRIPT_PATH=~/hercules-helper
-            echo "SCRIPT_PATH=$SCRIPT_PATH"
-            #SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
-            SCRIPT_DIR=~/hercules-helper
-            echo "SCRIPT_DIR=$SCRIPT_DIR"
-            #
             dpkg_src="$SCRIPT_DIR/packagers/debian/$PACKAGE_NAME"   # hercules-helper/packagers/debian/hyperion-4.4
             echo "dpkg_src=$dpkg_src"
             #

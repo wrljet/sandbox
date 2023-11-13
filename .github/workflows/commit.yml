@@ -401,12 +401,6 @@ jobs:
             #
             sudo cp -R /usr/local/share/hercules/ ./usr/local/share/
             #
-            #sudo mv ./usr/local/lib/hercules/* ./usr/local/lib
-            #
-            #sudo mkdir -p ./usr/local/lib
-            #
-            #sudo cp /usr/local/lib/libh* ./usr/local/lib
-            #sudo cp -R /usr/local/lib/hercules ./usr/local/lib/hercules
             echo
             pwd
             ls
@@ -428,4 +422,36 @@ jobs:
             echo "LINUX_DEBNAME=Hercules-$VERSION.deb"
             mv "$PACKAGE_NAME.deb" $LINUX_DEBNAME
             ls -lh $LINUX_DEBNAME
+            #
+            # Test install the new dpkg deb
+            echo "pwd = $(pwd)"
+            echo "dpkg --install ..."
+            sudo dpkg --install $LINUX_DEBNAME
+            echo
+            # FIXME -dev is in 'control' file
+            echo "dpkg -L ..."
+            dpkg -L "$PACKAGE_NAME-dev"
+            echo
+            #
+            echo "hash -r and which"
+            hash -r
+            which hercules
+            hercules --version
+            #
+            echo "dpkg-deb -f ..."
+            dpkg-deb -f "$LINUX_DEBNAME"
+            #
+            echo "dpkg-deb -s ..."
+            # FIXME
+            dpkg -s "$PACKAGE_NAME-dev"
+            #
+            echo "dpkg-deb -l ..."
+            # FIXME
+            dpkg -l "$PACKAGE_NAME-dev"
+            #
+            # Create dpkg sha256
+            echo "Create dpkg sha256"
+            curl -sL "$LINUX_DEBNAME" | shasum -a 256 | cut -d " " -f 1
+            #
+
 

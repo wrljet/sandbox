@@ -290,6 +290,15 @@ jobs:
             cd $OPT_BUILD_DIR/hyperion
             echo "pwd = $(pwd)"
             #
+            # Create Fish style release name
+            VERSION=$(./_dynamic_version)
+            #
+            # Remove double quotes and spaces from Fish's version string
+            VERSION="${VERSION%\"}"
+            VERSION="${VERSION#\"}"
+            VERSION="${VERSION//[[:space:]]/}"
+            echo "VERSION: $VERSION"
+            #
             COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)
             echo "COMMIT_REF: $COMMIT_REF"
             VERSION_NAME="4.7"
@@ -297,8 +306,8 @@ jobs:
             PACKAGE_NAME="hyperion-$VERSION_NAME"
             echo "PACKAGE_NAME: $PACKAGE_NAME"
             #
-            hercules_vers="$(./_dynamic_version . VERSION | awk '{sub("-modified","", $0); print}' | sed 's/"//g')"
-            echo "Hercules package version: $hercules_vers"
+            HERCULES_VERS="$(./_dynamic_version . VERSION | awk '{sub("-modified","", $0); print}' | sed 's/"//g')"
+            echo "Hercules package version: $HERCULES_VERS"
             #
             dpkg_src="$SCRIPT_DIR/packagers/debian/$PACKAGE_NAME"   # hercules-helper/packagers/debian/hyperion-4.4
             echo "dpkg_src=$dpkg_src"
@@ -307,7 +316,7 @@ jobs:
             cp -R $dpkg_src $PACKAGE_NAME/
             sudo cp ./$PACKAGE_NAME/DEBIAN/control ./$PACKAGE_NAME/DEBIAN/control.orig
             # must 'sudo sh -c' to get the redirection to run as root
-            sudo sh -c "sed 's/Version:.*$/Version: $hercules_vers/' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
+            sudo sh -c "sed 's/Version:.*$/Version: $HERCULES_VERS/' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
             cat ./$PACKAGE_NAME/DEBIAN/control
             #
             echo "Copy everything locally; correct libs dir"
@@ -416,6 +425,7 @@ jobs:
             pwd
             dpkg -b ./$PACKAGE_NAME
             LINUX_DEBNAME="Hercules-$VERSION.deb"
+            echo "LINUX_DEBNAME=Hercules-$VERSION.deb"
             mv "$PACKAGE_NAME.deb" $LINUX_DEBNAME
             ls -lh $LINUX_DEBNAME
 

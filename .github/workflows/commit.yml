@@ -278,7 +278,6 @@ jobs:
             # time make check
             #
             sudo make install
-            h
             #
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/hercules
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/herclin

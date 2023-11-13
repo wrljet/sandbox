@@ -296,7 +296,7 @@ jobs:
             # Remove double quotes and spaces from Fish's version string
             VERSION="${VERSION%\"}"
             VERSION="${VERSION#\"}"
-            VERSION="${VERSION//[[:space:]]/}"
+            VERSION="$(echo "$VERSION" | tr -d ' ')"
             echo "VERSION: $VERSION"
             #
             COMMIT_REF=$(git rev-parse --short $GITHUB_SHA)

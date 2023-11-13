@@ -278,8 +278,7 @@ jobs:
             # time make check
             #
             sudo make install
-            #
-            pwd
+            h
             #
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/hercules
             sudo setcap 'cap_sys_nice=eip' $OPT_INSTALL_DIR/bin/herclin
@@ -407,6 +406,7 @@ jobs:
             echo
             cd -
             pwd
+            # /sandbox/herctest/hyperion/hyperion-4.7
             #
             sudo chown root:root -R ./$PACKAGE_NAME
             #
@@ -417,7 +417,6 @@ jobs:
             pwd
             dpkg -b ./$PACKAGE_NAME
             LINUX_DEBNAME="Hercules-$VERSION.deb"
-            echo "LINUX_DEBNAME=$LINUX_DEBNAME" >>$GITHUB_ENV
             mv "$PACKAGE_NAME.deb" $LINUX_DEBNAME
             ls -lh $LINUX_DEBNAME
 

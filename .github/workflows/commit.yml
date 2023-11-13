@@ -315,8 +315,15 @@ jobs:
             sudo rm -rf ./$PACKAGE_NAME
             cp -R $dpkg_src $PACKAGE_NAME/
             sudo cp ./$PACKAGE_NAME/DEBIAN/control ./$PACKAGE_NAME/DEBIAN/control.orig
-            # must 'sudo sh -c' to get the redirection to run as root
+            #
+            # Update the version info in the dpkg control file
+            # Must 'sudo sh -c' to get the redirection to run as root
             sudo sh -c "sed 's/Version:.*$/Version: $HERCULES_VERS/' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
+            #
+            # Update the CPU architecture info in the dpkg control file
+            # Must 'sudo sh -c' to get the redirection to run as root
+            sudo sh -c "sed 's/Architecture:.*$/Architecture: arm64' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
+            #
             cat ./$PACKAGE_NAME/DEBIAN/control
             #
             echo "Copy everything locally; correct libs dir"

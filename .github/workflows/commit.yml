@@ -113,6 +113,12 @@ jobs:
             git clone https://github.com/wrljet/hercules-helper.git
             ls -l
             #
+            cd hercules-helper
+            echo "Script version: $SCRIPT_DIR/$(basename $0): $(git describe --long --tags --dirty --always 2>/dev/null)"
+            # add hercules-helper version to the build description
+            HERCULES_HELPER_VERSION="$(git describe --long --tags --dirty --always 2>/dev/null)"
+            cd -
+            #
             mkdir -p $OPT_INSTALL_DIR
             mkdir -p $OPT_BUILD_DIR/hyperion
             cd $OPT_BUILD_DIR
@@ -267,7 +273,7 @@ jobs:
             cd $OPT_BUILD_DIR/hyperion/build
             #
             # Configure and build Hercules
-            CFLAGS="-frecord-gcc-switches" ../configure --enable-optimization="-g -g3 -ggdb3 -O3 -march=native" --enable-extpkgs=$OPT_BUILD_DIR/extpkgs --prefix=$OPT_INSTALL_DIR --enable-custom="Built using Hercules-Helper (version: xxxxxxxxxxxxxxxxxxx)" --enable-regina-rexx
+            CFLAGS="-frecord-gcc-switches" ../configure --enable-optimization="-g -g3 -ggdb3 -O3 -march=native" --enable-extpkgs=$OPT_BUILD_DIR/extpkgs --prefix=$OPT_INSTALL_DIR --enable-custom="Built for you with Hercules-Helper (version: $HERCULES_HELPER_VERSION)" --enable-regina-rexx
             #
             ./config.status --config
             #
@@ -322,7 +328,7 @@ jobs:
             #
             # Update the CPU architecture info in the dpkg control file
             # Must 'sudo sh -c' to get the redirection to run as root
-            sudo sh -c "sed 's/Architecture:.*$/Architecture: arm64' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
+            sudo sh -c "sed 's/Architecture:.*$/Architecture: arm64/' ./$PACKAGE_NAME/DEBIAN/control.orig > ./$PACKAGE_NAME/DEBIAN/control"
             #
             cat ./$PACKAGE_NAME/DEBIAN/control
             #

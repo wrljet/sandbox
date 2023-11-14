@@ -32,7 +32,7 @@ jobs:
         cpu: ${{ matrix.cpu }}
         cpu_info: ${{ matrix.cpu_info }}
         copy_artifact_dest: /tmp
-        copy_artifact_path: /sandbox/uploads
+        copy_artifact_path: uploads
         commands: |
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
@@ -104,10 +104,10 @@ jobs:
             export GIT_BRANCH_EXTPKGS=""
             #
             # reports: /sandbox
-            pwd
+            echo "pwd = $(pwd)"
             #
             # Create output directory
-            mkdir -p /sandbox/uploads
+            mkdir -p uploads
             #
             sudo apt-get install -y git wget time ncat
             sudo apt-get install -y build-essential

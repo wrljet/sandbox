@@ -487,4 +487,5 @@ jobs:
         ls -lh /home/runner/work/sandbox
         ls -lh /home/runner/work/sandbox/sandbox
         ls -lh /tmp
+        ls -lh /tmp/uploads
 

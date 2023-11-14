@@ -24,8 +24,6 @@ jobs:
           cpu: cortex-a53
           base_image: raspios_lite_arm64:latest
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
-          copy_artifact_dest: /tmp
-          copy_artifact_path: /sandbox/uploads
     steps:
     - uses: pguyot/arm-runner-action@v2
       with:
@@ -33,6 +31,8 @@ jobs:
         base_image: ${{ matrix.base_image }}
         cpu: ${{ matrix.cpu }}
         cpu_info: ${{ matrix.cpu_info }}
+        copy_artifact_dest: /tmp
+        copy_artifact_path: /sandbox/uploads
         commands: |
             test `uname -m` = ${{ matrix.arch }}
             grep Model /proc/cpuinfo
@@ -480,6 +480,9 @@ jobs:
 
     - name: Set Title
       run: |
+        # reports: /home/runner/work/sandbox/sandbox
         pwd
-        ls -lh /sandbox/uploads
+        ls -lh /home/runner/work
+        ls -lh /home/runner/work/sandbox
+        ls -lh /home/runner/work/sandbox/sandbox
 

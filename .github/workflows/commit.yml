@@ -24,6 +24,8 @@ jobs:
           cpu: cortex-a53
           base_image: raspios_lite_arm64:latest
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
+          copy_artifact_dest: /tmp
+          copy_artifact_path: /sandbox/uploads
     steps:
     - uses: pguyot/arm-runner-action@v2
       with:
@@ -103,6 +105,9 @@ jobs:
             #
             # reports: /sandbox
             pwd
+            #
+            # Create output directory
+            mkdir -p /sandbox/uploads
             #
             sudo apt-get install -y git wget time ncat
             sudo apt-get install -y build-essential
@@ -437,7 +442,10 @@ jobs:
             ls -lh $LINUX_DEBNAME
             #
             # Test install the new dpkg deb
+            # pwd = /sandbox/herctest/hyperion
             echo "pwd = $(pwd)"
+            #
+            # sudo dpkg --install Hercules-4.7.0.11032-SDL-DEV-g4f007805.deb
             echo "dpkg --install ..."
             sudo dpkg --install $LINUX_DEBNAME
             echo
@@ -466,5 +474,12 @@ jobs:
             echo "Create dpkg sha256"
             curl -sL "$LINUX_DEBNAME" | shasum -a 256 | cut -d " " -f 1
             #
+            # Copy .deb to upload directory
+            mkdir -p /sandbox/uploads
+            cp $LINUX_DEBNAME /sandbox/uploads
 
+    - name: Set Title
+      run: |
+        pwd
+        ls -lh /sandbox/uploads
 

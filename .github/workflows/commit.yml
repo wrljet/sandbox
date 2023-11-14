@@ -477,6 +477,7 @@ jobs:
             # Copy .deb to upload directory
             mkdir -p /sandbox/uploads
             cp $LINUX_DEBNAME /sandbox/uploads
+            cp $LINUX_DEBNAME uploads
 
     - name: Set Title
       run: |
@@ -485,4 +486,5 @@ jobs:
         ls -lh /home/runner/work
         ls -lh /home/runner/work/sandbox
         ls -lh /home/runner/work/sandbox/sandbox
+        ls -lh /tmp
 

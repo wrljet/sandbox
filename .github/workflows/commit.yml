@@ -479,13 +479,47 @@ jobs:
             cp $LINUX_DEBNAME /sandbox/uploads
             cp $LINUX_DEBNAME uploads
 
-    - name: Set Title
+    - name: Inspect results
       run: |
         # reports: /home/runner/work/sandbox/sandbox
         pwd
         ls -lh /home/runner/work
-        ls -lh /home/runner/work/sandbox
-        ls -lh /home/runner/work/sandbox/sandbox
-        ls -lh /tmp
+        #ls -lh /home/runner/work/sandbox
+        #ls -lh /home/runner/work/sandbox/sandbox
+        #ls -lh /tmp
         ls -lh /tmp/uploads
+        #
+        TITLE="Hercules Development Snapshot"
+        echo "Title: $TITLE"
+        echo "TITLE=$TITLE" >>$GITHUB_ENV
+        #
+        VERSION="123"
+        echo "Version: $VERSION"
+        echo "VERSION=$VERSION" >>$GITHUB_ENV
+
+    - name: Upload dpkg
+      uses: actions/upload-artifact@v2
+      with:
+        path: "/tmp/uploads/Hercules*.deb"
+        name: "release.zips"
+
+    - name: Generate checksums
+      uses: jmgilman/actions-generate-checksum@v1
+      with:
+        patterns: |
+          release.zips/*.deb
+          release.zips/*.zip
+          release.zips/*.tar.gz
+
+    - name: Attach Release Archive
+      uses: wrljet/actions/packages/automatic-releases@built-packages
+      with:
+        repo_token: "${{secrets.GITHUB_TOKEN}}"
+        automatic_release_tag: "latest-${{github.ref_name}}"
+        prerelease: true
+        title: "${{env.TITLE}} ${{env.VERSION}}"
+        files: |
+          checksum.txt
+          release.zips
+
 

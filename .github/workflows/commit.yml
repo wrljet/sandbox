@@ -497,6 +497,11 @@ jobs:
         echo "Version: $VERSION"
         echo "VERSION=$VERSION" >>$GITHUB_ENV
 
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+#     with:
+#       name: "release.zips"
+
     - name: Upload dpkg
       uses: actions/upload-artifact@v2
       with:
@@ -510,6 +515,11 @@ jobs:
           release.zips/*.deb
           release.zips/*.zip
           release.zips/*.tar.gz
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+#     with:
+#       name: "release.zips"
 
     - name: Attach Release Archive
       uses: wrljet/actions/packages/automatic-releases@built-packages

@@ -22,7 +22,7 @@ jobs:
         include:
         - arch: aarch64
           cpu: cortex-a53
-          base_image: raspios_lite:latest
+          base_image: raspi_4_bullseye:20230102
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
 
     steps:

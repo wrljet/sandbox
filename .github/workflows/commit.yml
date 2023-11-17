@@ -1,6 +1,9 @@
 name: Test architecture matrix
 run-name: ${{ github.actor }} is doing a develop build
 
+# Build Hercules from the latest commit
+# WRL 15 NOV 2023
+
 #        arch: [armv6l, armv7l, aarch64]
 #        - arch: armv6l
 #          cpu: arm1176
@@ -26,7 +29,8 @@ jobs:
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
 
     steps:
-    - uses: pguyot/arm-runner-action@v2
+    - name: pguyot ARM Runner
+      uses: pguyot/arm-runner-action@v2
       with:
         image_additional_mb: 4096
         base_image: ${{ matrix.base_image }}

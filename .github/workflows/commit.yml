@@ -29,6 +29,26 @@ jobs:
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
 
     steps:
+    - name: Check PWD
+      run: |
+        echo "pwd = $(pwd)"
+
+    - uses: actions/checkout@v3.3.0
+
+    - name: Set Title
+      run: |
+        echo "pwd = $(pwd)"
+        #
+        echo "Tag: latest-${{github.ref_name}}"
+        if grep -q "develop" <<< "${{github.ref_name}}"; then
+          TITLE="Hercules Development Snapshot"
+        elif grep -q "workflow" <<< "${{github.ref_name}}"; then
+          TITLE="Hercules Development Snapshot"
+          TITLE="Hercules"
+        fi
+        echo "Title: $TITLE"
+        echo "TITLE=$TITLE" >>$GITHUB_ENV
+
     - name: pguyot ARM Runner
       uses: pguyot/arm-runner-action@v2
       with:
